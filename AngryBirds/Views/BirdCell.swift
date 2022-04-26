@@ -21,9 +21,16 @@ class BirdCell: UITableViewCell {
             self.accessoryType = bird!.confirmedSighting ? .checkmark : .none
             
             DispatchQueue.global(qos: .userInitiated).async {
+                let defaultImageData = NSData(contentsOf: URL(string: "https://static.wikia.nocookie.net/angrybirds/images/3/31/Red.png/revision/latest?cb=20220331060717")!)
                 let birdImageData = NSData(contentsOf: URL(string: self.bird!.imageUrl)!)
+                
                 DispatchQueue.main.async {
-                    self.birdImageView.image = UIImage(data: birdImageData as! Data)
+                    if birdImageData != nil {
+                        self.birdImageView.image = UIImage(data: birdImageData as! Data)
+                    } else {
+                        self.birdImageView.image = UIImage(data: defaultImageData as! Data)
+                    }
+                    
                     self.birdImageView.layer.cornerRadius = self.birdImageView.frame.width / 2
                 }
             }
